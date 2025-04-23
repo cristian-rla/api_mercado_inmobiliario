@@ -1,9 +1,8 @@
 import express from 'express'
-import { singleHouseController, HouseController } from '../controller/house';
-import {singleHouseHandler, HouseHandler} from '../handler/house';
+import {singleHouseHandler} from '../handler/house';
 
 const router = express.Router();
 
-router.get("/", singleHouseHandler.getAllHouses);
+router.get("/", singleHouseHandler.getAllHouses.bind(singleHouseHandler));
 
-export default router
+export default router;

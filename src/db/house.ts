@@ -1,5 +1,4 @@
-import {House, HouseQuery} from "../types/db/house";
-import {z} from 'zod'
+import type {House, HouseQuery} from "../types/db/house";
 
 const HOUSES = [
     {
@@ -52,29 +51,27 @@ const HOUSES = [
     }
   ];
   
-class HouseService{
-    async getHouses(): Promise<z.infer<typeof House>[]>{
+export class HouseService{
+    async getHouses(): Promise<House[]>{
         return HOUSES;
     }
-    async getHouseById(id:number): Promise <z.infer<typeof House>>{
+    async getHouseById(id:number): Promise <House>{
         return HOUSES[id];
     }
-    async getHouseByRange(priceMin:number, priceMax:number):Promise<z.infer<typeof House>[]>{
+    async getHouseByRange(priceMin:number, priceMax:number):Promise<House[]>{
         return HOUSES.filter(house => house.price > priceMin && house.price < priceMax)
     }
     async getHouseByType(type:string){
         return HOUSES.filter(house => house.type == type);
     }
-    async getHouseByQuery(query:z.infer<typeof HouseQuery>){
+    async getHouseByQuery(query:HouseQuery){
         const filteredHouses = HOUSES
         for (let condition in query){
-            let key = condition as keyof z.infer<typeof HouseQuery>;
+            let key = condition as keyof HouseQuery;
             filteredHouses.filter(house => condition == house[key])
         } 
-        return filteredHouses;
+        return  filteredHouses;
     }
 }
 
-const singleHouseService = new HouseService();
-export {HouseService, singleHouseService}
-export default HouseService;
+export const singleHouseService = new HouseService();

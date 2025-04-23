@@ -1,7 +1,7 @@
 // Si es necesario modificar el precio de la casa, si habrá cierta lógica de negocio involucrada en cómo cambiar los datos
 import {z} from 'zod'
 
-const House = z.object({
+export const HouseSchema = z.object({
     id:z.number(),
     price:z.number(), // Precio de renta
     name:z.string(), // Asunto 
@@ -14,7 +14,9 @@ const House = z.object({
     type:z.string() // Renta o venta
 })
 
-const HouseQuery = z.object({
+export type House = z.infer<typeof HouseSchema>;
+
+export const HouseQuerySchema = z.object({
     "id":z.number().optional(),
     "price":z.number().optional(), // Precio de renta
     "name":z.string().optional(), // Asunto 
@@ -27,5 +29,4 @@ const HouseQuery = z.object({
     "type":z.string().optional() // Renta o venta
 })
 
-export {House, HouseQuery}
-export default House;
+export type HouseQuery = z.infer<typeof HouseQuerySchema>;

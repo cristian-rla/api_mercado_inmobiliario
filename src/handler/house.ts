@@ -1,22 +1,24 @@
+
+import {singleHouseController, HouseController} from "../controller/house";
 import {Request, Response, NextFunction} from 'express'
-import house, { HouseController, singleHouseController } from "../controller/house";
-import { singleHouseService } from "../db/house";
 
 
-class HouseHandler{
+export default class HouseHandler{
     houseController:HouseController;
     constructor(houseController:HouseController){
         this.houseController = houseController;
     }
     async getAllHouses(req:Request, res:Response, next: NextFunction){
         try{
-
+            const houses = await this.houseController.getAllHouses();
+            console.log(houses);
+            res.status(200).json(houses);
         } catch(error){
-            res.status(500).json({message:"The request could not be completed"})
+            if (error instanceof Error)
+            res.status(500).json({message:error.message});
         }
     }
 }
 
-const singleHouseHandler = new HouseHandler(singleHouseController)
-export {singleHouseHandler, HouseHandler}
-export default HouseHandler;
+export const singleHouseHandler = new HouseHandler(singleHouseController);
+export {HouseHandler}
